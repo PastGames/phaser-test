@@ -23,7 +23,7 @@ if (Meteor.isClient) {
     background.scale.y = 0.4;
 
     //We add a first monster to it
-    var monsters = game.add.group();
+    monsters = game.add.group();
 
     //Enable physics for everything in this group
     monsters.enableBody = true;
@@ -31,6 +31,15 @@ if (Meteor.isClient) {
     //we add our first monster
     var magician = monsters.create(100, 100, 'magician');
     magician.scale.setTo(0.6, 0.6);
+
+    //Physics settings
+    game.physics.arcade.enable(magician);
+    magician.body.bounce.y = 1.0;
+    magician.body.bounce.x = 0.6;
+    magician.body.gravity.y = 150;
+    magician.body.gravity.x = 20;
+
+    magician.body.collideWorldBounds = true;
 
     //Player, THE KING !
     player = game.add.sprite(160, 0, 'king');
@@ -56,6 +65,10 @@ if (Meteor.isClient) {
   var update = function () {
     //Collide the player with the platforms
     game.physics.arcade.collide(player, platforms);
+
+    //collide the player with the monsters
+    game.physics.arcade.collide(player, monsters);
+    game.physics.arcade.collide(monsters, platforms);
 
     //reset the player velocity
     player.body.velocity.x = 0;
