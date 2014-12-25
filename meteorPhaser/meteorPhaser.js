@@ -7,6 +7,8 @@ if (Meteor.isClient) {
     game.load.image('foret','sprites/foret.jpg');
 
     game.load.image('magician','sprites/monstre1.png');
+
+    game.load.image('king', 'sprites/king1.png');
   };
 
   var create = function () {
@@ -29,6 +31,16 @@ if (Meteor.isClient) {
     //we add our first monster
     var magician = monsters.create(100, 100, 'magician');
     magician.scale.setTo(0.6, 0.6);
+
+    //Player, THE KING !
+    var player = game.add.sprite(160, 0, 'king');
+    player.scale.setTo(0.5, 0.5);
+
+    //Physics settings
+    game.physics.arcade.enable(player);
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
 
     //Here we define our platforms
     var platforms = game.add.group();
