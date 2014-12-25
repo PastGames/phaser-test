@@ -29,6 +29,12 @@ if (Meteor.isClient) {
     //we add our first monster
     var magician = monsters.create(100, 100, 'magician');
     magician.scale.setTo(0.6, 0.6);
+
+    //Here we define our platforms
+    var platforms = game.add.group();
+    platforms.enableBody = true;
+    var ground = platforms.create(0, game.world.height - 64);
+    ground.body.immovable = true; //this will not fall on contact
   };
 
   var update = function () {
