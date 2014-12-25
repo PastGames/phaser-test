@@ -33,24 +33,26 @@ if (Meteor.isClient) {
     magician.scale.setTo(0.6, 0.6);
 
     //Player, THE KING !
-    var player = game.add.sprite(160, 0, 'king');
+    player = game.add.sprite(160, 0, 'king');
     player.scale.setTo(0.5, 0.5);
 
     //Physics settings
     game.physics.arcade.enable(player);
-    player.body.bounce.y = 0.2;
+    player.body.bounce.y = 0.9;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
 
     //Here we define our platforms
-    var platforms = game.add.group();
+    platforms = game.add.group();
     platforms.enableBody = true;
-    var ground = platforms.create(0, game.world.height - 64);
+    var ground = platforms.create(0, game.world.height - 60, 'foret');
+    ground.visible = false;
     ground.body.immovable = true; //this will not fall on contact
   };
 
   var update = function () {
-
+    //Collide the player with the platforms
+    game.physics.arcade.collide(player, platforms);
   };
 
   Template.game.helpers({
