@@ -38,7 +38,7 @@ if (Meteor.isClient) {
 
     //Physics settings
     game.physics.arcade.enable(player);
-    player.body.bounce.y = 0.9;
+    player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
 
@@ -48,11 +48,28 @@ if (Meteor.isClient) {
     var ground = platforms.create(0, game.world.height - 60, 'foret');
     ground.visible = false;
     ground.body.immovable = true; //this will not fall on contact
+
+    //We define our keyboard
+    cursors = game.input.keyboard.createCursorKeys();
   };
 
   var update = function () {
     //Collide the player with the platforms
     game.physics.arcade.collide(player, platforms);
+
+    //reset the player velocity
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown){
+      player.body.velocity.x = -150;
+    }
+    else if (cursors.right.isDown) {
+      player.body.velocity.x = 150;
+    } 
+
+    if (cursors.up.isDown && player.body.touching.down) {
+      player.body.velocity.y = -350;
+    }
   };
 
   Template.game.helpers({
