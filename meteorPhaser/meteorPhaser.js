@@ -8,7 +8,7 @@ if (Meteor.isClient) {
 
     game.load.image('magician','sprites/monstre1.png');
 
-    game.load.image('king', 'sprites/king1.png');
+    game.load.spritesheet('king', 'sprites/king_sprite_full_small.png', 265, 529);
   };
 
   var create = function () {
@@ -43,13 +43,17 @@ if (Meteor.isClient) {
 
     //Player, THE KING !
     player = game.add.sprite(160, 0, 'king');
-    player.scale.setTo(0.5, 0.5);
+    // player.scale.setTo(0.5, 0.5);
 
     //Physics settings
     game.physics.arcade.enable(player);
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
+
+    //Two animations for left and right
+    player.animations.add('left', [3, 2, 1, 0], 5, true);
+    player.animations.add('right', [5, 6, 7, 8], 5, true);
 
     //Here we define our platforms
     platforms = game.add.group();
@@ -75,10 +79,18 @@ if (Meteor.isClient) {
 
     if (cursors.left.isDown){
       player.body.velocity.x = -150;
+      player.animations.play('left');
     }
     else if (cursors.right.isDown) {
       player.body.velocity.x = 150;
-    } 
+      player.animations.play('right');
+    }
+    else {
+      //Stand stilll
+      player.animations.stop();
+
+      player.frame = 4;
+    }
 
     if (cursors.up.isDown && player.body.touching.down) {
       player.body.velocity.y = -350;
