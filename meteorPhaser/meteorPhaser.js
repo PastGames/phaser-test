@@ -66,6 +66,8 @@ if (Meteor.isClient) {
     cursors = game.input.keyboard.createCursorKeys();
   };
 
+  last_move = "left";
+
   var update = function () {
     //Collide the player with the platforms
     game.physics.arcade.collide(player, platforms);
@@ -80,16 +82,23 @@ if (Meteor.isClient) {
     if (cursors.left.isDown){
       player.body.velocity.x = -150;
       player.animations.play('left');
+      last_move = "left";
     }
     else if (cursors.right.isDown) {
       player.body.velocity.x = 150;
       player.animations.play('right');
+      last_move = "right";
     }
     else {
       //Stand stilll
       player.animations.stop();
 
-      player.frame = 4;
+      if (last_move === "left"){
+        player.frame = 4;        
+      }
+      else {
+       player.frame = 6;       
+      }
     }
 
     if (cursors.up.isDown && player.body.touching.down) {
